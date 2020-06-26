@@ -48,6 +48,16 @@ end
 post '/contacts' do
 	@user_mail = params[:user_mail]
 	@user_feedback = params[:user_feedback]
+
+	hh2 = { :user_mail => "Введите вашу почту",
+			:user_feedback => "Введите ваш отзыв"	}
+
+	@error = hh2.select {|key,_| params[key] == ''}.values.join(", ")
+
+	if @error != ''
+	  return erb :contacts
+	end
+
 	File.open('./public/contacts.txt', 'a'){|f| f.write("Begin\n#{'=' * 20}\n#{@user_mail}\n#{@user_feedback}\n#{'=' * 20}\nEnd\n")}
 
 	erb :contacts
