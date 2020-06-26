@@ -25,7 +25,19 @@ post '/visit' do
 	@user_date_visit = params[:user_date_visit]
 	@master = params[:selected_master]
 	@color = params[:color]
-	
+
+	hh = {  :user_name => "Введите имя",
+			:user_phone => "Введите телефон",
+			:user_date_visit => "Введите дату и время"	}
+
+	hh.each do |key, value|
+
+		if params[key] == ""
+			@error = hh[key]
+			return erb :visit
+		end
+	end
+
 	File.open('./public/visit.txt', 'a'){|f| f.write("#{@user_name},#{@user_phone},#{@user_date_visit},#{@master}, #{@color}\n")}
 	erb :visit
 end
